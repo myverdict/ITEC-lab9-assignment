@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Sign In</title>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <link rel="stylesheet" 
+		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		  crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- TODO show errors from form validation -->
+        <div class="alert alert-danger" v-show="errors.length > 0">
+            <ul>
+                <li v-for="error in errors" v-bind:key="error">
+                    {{ error }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="card add-student m-2 p-2">
+            <h4 class="card-title">Add new student</h4>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+
+                <!-- TODO v-model newStudentName -->
+                <input id="name" class="form-control" v-model.trim="newStudentName">
+            </div>
+			
+            <div class="form-group">
+                <label for="starID">Star ID</label>
+
+                <!-- TODO v-model newStarID -->
+                <input id="starID" class="form-control" v-model.trim="newStarID">
+            </div>
+			
+            <!-- TODO v-on:click event handler -->
+            <!-- <button class="btn btn-primary" @click="addStudent">Add</button> -->
+            <button class="btn btn-primary" v-on:click="addStudent">Add</button>
+        </div>
+
+        <div class="card student-list m-2 p-2">
+            <h4 class="card-title">Student List</h4>
+            <div id="student-table">
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>StarID</th>
+                        <th>Present?</th>
+                    </tr>
+
+                    <!--
+                        TODO create table rows
+                        Each row will have a checkbox, bound to the app's data
+                        When the checkbox is checked/unchecked, the student will be signed in/out
+                    -->
+                    <!-- <tr v-for="student in students" v-bind:class="{ present: student.present, absent: !student.present }"> -->
+                    <!-- <tr v-for="student in students" :key="student.starID" :class="student.present ? 'present' : 'absent'"> -->
+                    <tr v-for="student in students" v-bind:key="student.starID" v-bind:class="student.present ? 'present' : 'absent'">
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.starID }}</td>
+                        <!-- <td><input type="checkbox" v-model="student.present" @change="arrivedOrLeft(student)"></td> -->
+                        <td><input type="checkbox" v-model="student.present" v-on:change="arrivedOrLeft(student)"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- TODO show a message when student arrives or leaves  -->
+        <div v-show="mostRecentStudent.name">
+            <div v-if="mostRecentStudent.present" class="alert alert-success">
+                Welcome, {{ mostRecentStudent.name }}
+            </div>
+
+            <div v-else class="alert alert-info">
+                Goodbye, {{ mostRecentStudent.name }}. See you later!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TODO Vue app     
+        let app = new Vue({
+            el: "#app",
+            data: {
+                newStudentName: "",
+                newStarID: "",
+                students: [
+                    { name: "A Student", starID: "aa1234aa", present: false },
+                    { name: "B Student", starID: "by456osc", present: false }
+                ],
+                errors: [],
+                mostRecentStudent: {}           // last person to change the value of a checkbox
+            },
+            methods: {
+                addStudent() {
+                    // Alternate option with vue-model.trim
+                    // trim off the spaces from the name input
+                    // this.newStudentName = this.newStudentName.trim();
+                    // trim off the spaces from the starID input
+                    // this.newStarID = this.newStarID.trim();
+
+                    this.errors = [];
+
+                    if(!this.newStudentName)
+                    {
+                        this.errors.push("Student name is required.");
+                    }
+
+                    if(!this.newStarID)
+                    {
+                        this.errors.push("Star ID is required.");
+                    }
+
+                    // Validate the student's name & starID are entered
+                    if(this.errors.length === 0)
+                    {
+                        let student = {name: this.newStudentName, starID: this.newStarID, present: false};
+
+                        this.students.push(student);
+
+                        // Sort students in alphabetical order
+                        this.students.sort( function( s1, s2 ) {
+                            // In JS, one string is greater than another string if it is after it,
+                            // alphabetically. So, 'z' > 'a'
+                            /*
+                            if(s1.name.toLowerCase() > s2.name.toLowerCase())
+                            {
+                                return 1;               // return 1 if s1 should be after s2
+                            }
+                            else
+                            {
+                                return -1;              // return -1 if s1 should be before s2
+                            }
+                            */
+
+                            // Alternate way of writing the above function
+                            return s1.name.toLowerCase() > s2.name.toLowerCase() ? 1 : -1;
+                        });
+
+                        this.newStudentName = "";
+                        this.newStarID = "";
+                    }
+                },
+                arrivedOrLeft(student) {
+                    // last person to change the value of a checkbox
+                    this.mostRecentStudent = student;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+
+                
