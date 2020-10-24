@@ -163,9 +163,9 @@
 
                         <!-- TODO use v-for to create one table row for each activity record -->
                         <tr v-for="record in activityRecords"
-                            v-bind:class={sketchingRow: record.type === "Sketching",
-                                          drawingRow: record.type === "Drawing",
-                                          paintingRow: record.type === "Painting"}>
+                            v-bind:class="{sketchingRow: record.type === 'Sketching',
+                                           drawingRow: record.type === 'Drawing',
+                                           paintingRow: record.type === 'Painting'}">
                             <td>{{ record.date | shortDate}}</td>
                             <td>{{ record.hours | decimalPlaces(2)}}</td>
                             <td>{{ record.type }}</td>
@@ -196,11 +196,11 @@
                 <p v-if="activityRecords.length != 0">
                     Practice hours for each activity:
 
-                    <!--
                     <li v-for="eachActivityHours in totalHoursForEachActivityRecord">
                         {{ eachActivityHours }}
+
+                        <!-- <span v-if="eachActivityHours.hours > 0">{{ eachActivityHours }}</span> -->
                     </li>
-                    -->
                 </p>
             </div>
         </div>          <!-- summary section ends -->
@@ -283,34 +283,32 @@
                     return total;
                 },
                 totalHoursForEachActivityRecord() {
+                    let totalSketchingHours = 0;
+                    let totalDrawingHours = 0;
+                    let totalPaintingHours = 0;
 
-                    /*
-                    let totalSketching = 0;
-                    let totalDrawing = 0;
-                    let totalPainting = 0;
-
-                    let eachActivityHours = [];
+                    let eachActivityAndHours = [];                  // array of strings
 
                     this.activityRecords.forEach( record => {
-                        if(record.type == 'Sketching')
+                        if (record.type == 'Sketching')
                         {
-                            totalSketching = totalSketching + record.hours;
-                            eachActivityHours.push(`${record.type} practice hours: ${totalSketching}`);
+                            totalSketchingHours = totalSketchingHours + record.hours;
                         }
-                        else if(record.type == 'Drawing')
+                        else if (record.type == 'Drawing')
                         {
-                            totalDrawing = totalDrawing + record.hours;
-                            eachActivityHours.push(`${record.type} practice hours: ${totalDrawing}`);
+                            totalDrawingHours = totalDrawingHours + record.hours;
                         }
-                        else if(record.type == 'Painting')
+                        else if (record.type == 'Painting')
                         {
-                            totalPainting = totalPainting + record.hours;
-                            eachActivityHours.push(`${record.type} practice hours: ${totalPainting}`);
+                            totalPaintingHours = totalPaintingHours + record.hours;
                         }
                     })
 
-                    return eachActivityHours;
-                    */
+                    eachActivityAndHours.push(`Sketching practice hours: ${totalSketchingHours}`);
+                    eachActivityAndHours.push(`Drawing practice hours: ${totalDrawingHours}`);
+                    eachActivityAndHours.push(`Painting practice hours: ${totalPaintingHours}`);
+
+                    return eachActivityAndHours;
                 }
             },
             methods: {
