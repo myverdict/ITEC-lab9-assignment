@@ -318,9 +318,7 @@
                                         {
                                             // then just update the number of hours for that item/object
                                             arrayOfObjects[i].numOfHours += record.hours;
-
-                                            found = true;   // record is found
-                                            break;          // stop looping, as the item/object is found
+                                            found = true;           // record is found
                                         }
                                     }
 
@@ -338,8 +336,8 @@
                                     }
                                 }
                             }
-                        })
-                    })
+                        })              // end of types array forEach
+                    })                  // end of activityRecords array forEach
 
                     return arrayOfObjects;
 
