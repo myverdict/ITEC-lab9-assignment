@@ -47,9 +47,7 @@
                     <!-- TODO use v-model to connect this input to dateString data -->
                     <input id="date" class="form-control" type="date" v-model="dateString">
 
-                    <small id="date-help" class="form-text text-muted">
-                        Date must be today or in the past.
-                    </small>
+                    <small id="date-help" class="form-text text-muted">Date must be today or in the past.</small>
                 </div>
 
 
@@ -58,12 +56,9 @@
                     <label class="form-label" for="hours">How many hours did you practice for?</label>
 
                     <!-- TODO use v-model to connect this input to hours data -->
-                    <input id="hours" class="form-control" type="number" min="0" max="24"
-                           v-model.number="hours">
+                    <input id="hours" class="form-control" type="number" min="0" max="24" v-model.number="hours">
 
-                    <small id="hours-help" class="form-text text-muted">
-                        Enter a number of hours, more than 0, up to a maximum of 24
-                    </small>
+                    <small id="hours-help" class="form-text text-muted">Enter a number of hours, more than 0, up to a maximum of 24</small>
                 </div>
 
 
@@ -80,15 +75,12 @@
 
 
                 <!-- Label "What media" for radio buttons: Traditional or Digital -->
-                <div class="form-label pb-2">
-                    What media?
-                </div>
+                <div class="form-label pb-2">What media?</div>
 
                 <!-- "Traditional" radio buttons -->
                 <div class="form-check-inline">
                     <!-- TODO v-model and v-bind media -->
-                    <input id="media1" class="form-check-input" type="radio"
-                           v-bind:value="media.traditional" v-model="medium">
+                    <input id="media1" class="form-check-input" type="radio" v-bind:value="media.traditional" v-model="medium">
 
                     <label class="form-check-label" for="media1">
                         <!--TODO Display text -->
@@ -97,8 +89,7 @@
 
                     <!--
                         alternate way to write the above code
-                        <input id="media1" class="form-check-input" type="radio"
-                               value="Traditional" v-model="medium">
+                        <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
                         <label class="form-check-label" for="media1">Traditional</label>
                     -->
                 </div>
@@ -106,8 +97,7 @@
                 <!-- "Digital" radio buttons -->
                 <div class="form-check-inline">
                     <!-- TODO v-model and v-bind media -->
-                    <input id="media2" class="form-check-input" type="radio"
-                           v-bind:value="media.digital" v-model="medium">
+                    <input id="media2" class="form-check-input" type="radio" v-bind:value="media.digital" v-model="medium">
 
                     <label class="form-check-label" for="media2">
                         <!-- TODO Display text -->
@@ -184,7 +174,6 @@
             <h2 class="card-header">Summary</h2>
 
             <div class="card-body">
-
                 <!-- TODO add computed property to calculate the total hours -->
                 <p>
                     You have practiced a total of
@@ -246,8 +235,7 @@
                     return new Intl.DateTimeFormat("en-US", { timeZone: "UTC" }).format(date);
                 },
                 checkedBox(completed) {
-                    if(completed)
-                    {
+                    if(completed) {
                         return `Completed`;
                     }
                     return `Not completed`;
@@ -257,8 +245,7 @@
                     return formattedHours;
                 },
                 textareaDisplayCharacterLimit(text) {
-                    if(text.length >= 40)
-                    {
+                    if(text.length >= 40) {
                         return text.substr(0, 40) + "...";
                     }
                     return text;
@@ -266,12 +253,10 @@
             },
             computed: {
                 totalRecords() {
-                    if(this.activityRecords.length == 1)
-                    {
+                    if(this.activityRecords.length == 1) {
                         return `1 record`;
                     }
-                    else
-                    {
+                    else {
                         return this.activityRecords.length + " records";
                     }
                 },
@@ -290,11 +275,9 @@
                     this.activityRecords.forEach( record => {
                         this.types.forEach( activityType => {
                             // if the record entered is equal to one of the activity types
-                            if(record.type === activityType)
-                            {
+                            if(record.type === activityType) {
                                 // if there are no items/objects in the arrayOfObjects
-                                if(arrayOfObjects.length === 0)
-                                {
+                                if(arrayOfObjects.length === 0) {
                                     // create a new object
                                     objectInArray = {
                                         typeOfActivity: record.type,
@@ -306,16 +289,13 @@
                                 }
                                 // else if there are items/objects in the arrayOfObjects,
                                 // i.e., arrayOfObjects.length != 0
-                                else
-                                {
+                                else {
                                     let found = false;      // initial boolean to record not found
 
                                     // loop through the array to find if the item/object already exists
-                                    for(let i = 0; i < arrayOfObjects.length; i++)
-                                    {
+                                    for(let i = 0; i < arrayOfObjects.length; i++) {
                                         // if the record exists in the arrayOfObjects
-                                        if(record.type === arrayOfObjects[i].typeOfActivity)
-                                        {
+                                        if(record.type === arrayOfObjects[i].typeOfActivity) {
                                             // then just update the number of hours for that item/object
                                             arrayOfObjects[i].numOfHours += record.hours;
                                             found = true;           // record is found
@@ -323,8 +303,7 @@
                                     }
 
                                     // if the record is not found in the arrayOfObjects
-                                    if(!found)
-                                    {
+                                    if(!found) {
                                         // create a new object
                                         objectInArray = {
                                             typeOfActivity: record.type,
@@ -351,16 +330,13 @@
                     let eachActivityAndHours = [];                  // array of strings
 
                     this.activityRecords.forEach( record => {
-                        if (record.type == 'Sketching')
-                        {
+                        if (record.type == 'Sketching') {
                             totalSketchingHours = totalSketchingHours + record.hours;
                         }
-                        else if (record.type == 'Drawing')
-                        {
+                        else if (record.type == 'Drawing') {
                             totalDrawingHours = totalDrawingHours + record.hours;
                         }
-                        else if (record.type == 'Painting')
-                        {
+                        else if (record.type == 'Painting') {
                             totalPaintingHours = totalPaintingHours + record.hours;
                         }
                     })
@@ -382,32 +358,27 @@
                     this.errors = []
 
                     // Validation: dates need to be valid, and in the past or today
-                    if(!this.dateString || this.dateString == "Invalid Date" || date > new Date())
-                    {
+                    if(!this.dateString || this.dateString == "Invalid Date" || date > new Date()) {
                         this.errors.push("Select a valid date, today or in the past.")
                     }
 
                     // Validation: Hours should be between 0 and 24
-                    if(this.hours <= 0 || this.hours > 24)
-                    {
+                    if(this.hours <= 0 || this.hours > 24) {
                         this.errors.push("The number of hours must be greater than 0 and less than 24.")
                     }
 
                     // Validation: Activity type has to be selected from drop down list
-                    if(!this.type)
-                    {
+                    if(!this.type) {
                         this.errors.push("Select a type.")
                     }
 
                     // Validation: Activity medium must be selected (for radio buttons)
-                    if(!this.medium)
-                    {
+                    if(!this.medium) {
                         this.errors.push("Select a media.")
                     }
 
                     // if there are no errors, add a record to the summary
-                    if(this.errors.length == 0)
-                    {
+                    if(this.errors.length == 0) {
                         // create a record
                         let record = {
                             date: date,
